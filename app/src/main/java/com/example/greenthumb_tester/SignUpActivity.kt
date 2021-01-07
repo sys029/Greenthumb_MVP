@@ -131,12 +131,10 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
         Toast.makeText(applicationContext, error.message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onCountrySuccess(response: Response<JsonObject>) {
+    override fun countrySpinner(response: Response<JsonObject>) {
         val res = gson.fromJson(response.body().toString(), CountryResponse::class.java)
         countryList = res.data.toTypedArray()
         var country = arrayOfNulls<String>(countryList.size)
-
-
         for (i in countryList.indices) {
             country[i] = countryList[i].country_name
 
@@ -147,11 +145,8 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
         countrySpinner.adapter = adapter
     }
 
-    override fun onCountryError(loginBase: Error) {
-        Toast.makeText(applicationContext, loginBase.message!!, Toast.LENGTH_LONG).show()
-    }
 
-    override fun countrySpinnerSuccess(response: Response<JsonObject>) {
+    override fun stateSpinner(response: Response<JsonObject>) {
         val res = gson.fromJson(response.body().toString(), StateResponse::class.java)
         stateList = res.data.toTypedArray()
         var state = arrayOfNulls<String>(stateList.size)
@@ -164,7 +159,7 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
         stateSpinner.adapter = adapter
     }
 
-    override fun stateSpinnerSuccess(response: Response<JsonObject>) {
+    override fun citySpinner(response: Response<JsonObject>) {
         val res = gson.fromJson(response.body().toString(), CityResponse::class.java)
         cityList = res.data.toTypedArray()
         var city = arrayOfNulls<String>(cityList.size)

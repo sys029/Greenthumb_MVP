@@ -8,10 +8,9 @@ interface ISignupView{
     fun onSignupSuccess(loginBase:SignupResponse)
     fun onSignupError(error: Error)
 
-    fun onCountrySuccess(response: Response<JsonObject>)
-    fun onCountryError(loginBase: Error)
+    fun countrySpinner(response: Response<JsonObject>)
 
-    fun countrySpinnerSuccess(response: Response<JsonObject>)
-    fun stateSpinnerSuccess(response: Response<JsonObject>)
+    fun stateSpinner(response: Response<JsonObject>)
+    fun citySpinner(response: Response<JsonObject>)
 
 }

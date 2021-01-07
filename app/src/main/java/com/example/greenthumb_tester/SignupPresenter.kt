@@ -1,11 +1,9 @@
 package com.example.greenthumb_tester
 
 import android.content.Context
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,12 +62,12 @@ class SignupPresenter(var iSignupView: ISignupView,var context: Context):ISignup
 
                     when{
                         response.code() == 200 -> {
-                            iSignupView.onCountrySuccess(response)
+                            iSignupView.countrySpinner(response)
                         }
 
                         response.code() == 400 -> {
                             val res = gson.fromJson(response.errorBody()?.charStream(), Error::class.java)
-                            iSignupView.onCountryError(res)
+                            iSignupView.onSignupError(res)
                         }
 
                     }
@@ -93,12 +91,13 @@ class SignupPresenter(var iSignupView: ISignupView,var context: Context):ISignup
                     when{
 
                         response.code() == 200 -> {
-                            iSignupView.countrySpinnerSuccess(response)
+                            iSignupView.stateSpinner(response)
 
                         }
 
                         response.code() == 400 -> {
                             val res = gson.fromJson(response.errorBody()?.charStream(), Error::class.java)
+                            iSignupView.onSignupError(res)
                         }
 
 
@@ -120,11 +119,12 @@ class SignupPresenter(var iSignupView: ISignupView,var context: Context):ISignup
                     when{
 
                         response.code() == 200 -> {
-                            iSignupView.stateSpinnerSuccess(response)
+                            iSignupView.citySpinner(response)
                         }
 
                         response.code() == 400 -> {
                             val res = gson.fromJson(response.errorBody()?.charStream(), Error::class.java)
+                            iSignupView.onSignupError(res)
                         }
 
 
