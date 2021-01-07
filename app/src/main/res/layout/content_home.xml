@@ -17,7 +17,7 @@
         android:layout_gravity="top"/>
 
     <ScrollView
-        android:paddingLeft="5dp"
+        android:paddingLeft="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,7 +28,7 @@
             android:columnCount="2">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="185dp"
+                android:layout_width="188dp"
                 android:layout_height="150dp"
                 android:layout_margin="4dp"
                 app:cardElevation="5dp"

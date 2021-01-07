@@ -8,8 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(),ILoginView {
 
-    val builder = GsonBuilder()
-    val gson = builder.serializeNulls().create()
+
     private val loginPresenter=LoginPresenter(this,this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +43,12 @@ class MainActivity : BaseActivity(),ILoginView {
 
 
             loginPresenter.callLoginAPI(email,password,user_type,provider_type)
+
+        }
+
+        signupText.setOnClickListener {
+            val intent = Intent(applicationContext, SignUpActivity::class.java)
+            startActivity(intent)
 
         }
 
