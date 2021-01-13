@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface Api {
@@ -26,9 +27,9 @@ interface Api {
         @Field("email_id") email_id:String,
         @Field("password") password: String,
         @Field("user_phone1") user_phone1: String,
-        @Field("country") country: String,
-        @Field("state") state: String,
-        @Field("city") city: String,
+        @Field("country") country: Int,
+        @Field("state") state: Int,
+        @Field("city") city: Int,
         @Field("user_type") user_type: Int
     ): Call<JsonObject>
 
@@ -38,13 +39,17 @@ interface Api {
     @FormUrlEncoded
     @POST("state")
     fun stateList(
-        @Field("country_id") countryIDAPI:String
+        @Field("country_id") countryIDAPI:Int
     ) : Call<JsonObject>
 
     @FormUrlEncoded
     @POST("city")
     fun cityList(
-        @Field("state_id") stateIDAPI:String
+        @Field("state_id") stateIDAPI:Int
     ) : Call<JsonObject>
+
+    @GET("productlist")
+    fun productList(): Call<JsonObject>
+
 
 }

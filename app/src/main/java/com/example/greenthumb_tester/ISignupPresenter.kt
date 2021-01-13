@@ -9,13 +9,13 @@ interface ISignupPresenter {
         password: String,
         userType: Int,
         emailId: String,
-        country: String,
-        city: String,
-        state: String
+        country: Int,
+        city: Int,
+        state: Int
     )
 
     fun countryApi()
 
-    fun stateApi(countryId : String)
-    fun cityApi(stateId : String)
+    fun stateApi(countryId : Int)
+    fun cityApi(stateId : Int)
 }

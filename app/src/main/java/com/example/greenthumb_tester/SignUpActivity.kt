@@ -24,9 +24,9 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
     private lateinit var countryList : Array<CountryData>
     private lateinit var stateList : Array<StateData>
     private lateinit var cityList : Array<CityData>
-    private lateinit var countryId :String
-    private lateinit var stateId:String
-    private lateinit var cityId:String
+    private  var countryId :Int = 0
+    private  var stateId:Int = 0
+    private  var cityId:Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +105,10 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
                 confirmPass.requestFocus()
                 return@setOnClickListener
             }
+            if(stateSpinner.isEnabled == false ){
+                Toast.makeText(this,"Select Location",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
 
 
@@ -134,11 +138,13 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
     override fun countrySpinner(response: Response<JsonObject>) {
         val res = gson.fromJson(response.body().toString(), CountryResponse::class.java)
         countryList = res.data.toTypedArray()
-        var country = arrayOfNulls<String>(countryList.size)
-        for (i in countryList.indices) {
-            country[i] = countryList[i].country_name
+        var country = arrayOfNulls<String>(countryList.size+1)
+        country[0] = "Select Country"
 
+        for (i in countryList.indices) {
+            country[i+1] = countryList[i].country_name
         }
+
 
         val adapter =  ArrayAdapter(this@SignUpActivity, android.R.layout.simple_spinner_item,country)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -149,11 +155,13 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
     override fun stateSpinner(response: Response<JsonObject>) {
         val res = gson.fromJson(response.body().toString(), StateResponse::class.java)
         stateList = res.data.toTypedArray()
-        var state = arrayOfNulls<String>(stateList.size)
-
+        var state = arrayOfNulls<String>(stateList.size+1)
+        state[0]="Select State"
         for (i in stateList.indices) {
-            state[i] = stateList[i].state_name
+
+            state[i+1] = stateList[i].state_name
         }
+
         val adapter =  ArrayAdapter(this@SignUpActivity, android.R.layout.simple_spinner_item,state)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         stateSpinner.adapter = adapter
@@ -162,13 +170,15 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
     override fun citySpinner(response: Response<JsonObject>) {
         val res = gson.fromJson(response.body().toString(), CityResponse::class.java)
         cityList = res.data.toTypedArray()
-        var city = arrayOfNulls<String>(cityList.size)
-
-
+        var city = arrayOfNulls<String>(cityList.size+1)
+        city[0]="Select city"
         for (i in cityList.indices) {
-            city[i] = cityList[i].city_name
+
+            city[i+1] = cityList[i].city_name
 
         }
+
+
 
         val adapter =  ArrayAdapter(this@SignUpActivity, android.R.layout.simple_spinner_item,city)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -183,19 +193,54 @@ class SignUpActivity : AppCompatActivity(),ISignupView ,AdapterView.OnItemSelect
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when(parent?.id) {
             R.id.countrySpinner -> {
-                countryId = countryList.get(position).country_id
+                countryId = countryList.get(position).country_id.toInt()
                 signupPresenter.stateApi(countryId)
+
+                if (countryId == 1) {
+                    countryId = 1
+                    stateSpinner.isEnabled = false
+                    signupPresenter.stateApi(countryId)
+                    countrySpinner.setSelection(0)
+                }
+                else if(countryId>1) {
+                    stateSpinner.isEnabled = true
+                    countryId -= 1
+                    signupPresenter.stateApi(countryId)
+                }
+
+
 
             }
 
             R.id.stateSpinner -> {
-                stateId = stateList.get(position).state_id
-                signupPresenter.cityApi(stateId)
+
+                stateId = stateList.get(position).state_id.toInt()
+
+
+
+                if (position>=1){
+                    citySpinner.isEnabled=true
+                }
+                else if (position<1){
+                    citySpinner.isEnabled=false
+                }
+
+
+                if (stateId == 1) {
+                    stateId = 1
+                    signupPresenter.cityApi(stateId)
+                    stateSpinner.setSelection(0)
+                } else if(stateId>1) {
+                    stateId -= 1
+
+                    signupPresenter.cityApi(stateId)
+                }
+
 
             }
 
             R.id.citySpinner -> {
-                cityId = cityList.get(position).city_id
+                cityId = cityList.get(position).city_id.toInt()
 
             }
 

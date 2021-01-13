@@ -20,9 +20,9 @@ class SignupPresenter(var iSignupView: ISignupView,var context: Context):ISignup
         password: String,
         userType: Int,
         emailId: String,
-        country: String,
-        city: String,
-        state: String
+        country: Int,
+        city: Int,
+        state: Int
     ) {
         RetrofitClient.instance.userSignup(firstName, lastName,emailId,password,phone,country,state,city,userType)
             .enqueue(object : Callback<JsonObject> {
@@ -83,7 +83,7 @@ class SignupPresenter(var iSignupView: ISignupView,var context: Context):ISignup
 
     }
 
-    override fun stateApi(countryId:String) {
+    override fun stateApi(countryId:Int) {
         RetrofitClient.instance.stateList(countryId)
             .enqueue(object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
@@ -111,7 +111,7 @@ class SignupPresenter(var iSignupView: ISignupView,var context: Context):ISignup
             })
     }
 
-    override fun cityApi(stateId: String) {
+    override fun cityApi(stateId: Int) {
         RetrofitClient.instance.cityList(stateId)
             .enqueue(object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {

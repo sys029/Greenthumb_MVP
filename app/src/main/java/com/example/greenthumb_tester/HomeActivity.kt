@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 import kotlinx.android.synthetic.main.nav_header_home.view.*
 
@@ -45,6 +46,12 @@ class HomeActivity : AppCompatActivity() {
 
         val headerView = navigationView.getHeaderView(0)
         headerView.txtFullName.setText(SharedPrefManager.getInstance(applicationContext).user.email_id)
+
+        productCard.setOnClickListener {
+            val intent = Intent(this, ProductList::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
